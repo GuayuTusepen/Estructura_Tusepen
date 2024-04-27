@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": true,
-      "cwd": "d:/Local_Estructura-TusePen",
-      "program": "d:/Local_Estructura-TusePen/build/Debug/outDebug",
+      "cwd": "d:/Local_Estructura-TusePen/Parcial",
+      "program": "d:/Local_Estructura-TusePen/Parcial/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [
