@@ -1,3 +1,8 @@
+//Jeison mosquers y Daniela jaramillo
+
+
+
+
 #include <iostream>
 using namespace std;
 
@@ -28,22 +33,5 @@ void Insert_cod_estd(Estudiante estudiante) {
 
     if (raiz == NULL) {
         raiz = nuevo;
-    } else {
-        Nodo *temp = raiz;
-        while (temp != NULL) {
-            if (estudiante.codigo < temp->estudiante.codigo) {
-                if (temp->izq == NULL) {
-                    temp->izq = nuevo;
-                    return;
-                }
-                temp = temp->izq;
-            } else {
-                if (temp->der == NULL) {
-                    temp->der = nuevo;
-                    return;
-                }
-                temp = temp->der;
-            }
-        }
-    }
-}
+    } else 
+       
