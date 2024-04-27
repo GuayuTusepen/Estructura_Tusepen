@@ -34,4 +34,8 @@ void Insert_cod_estd(Estudiante estudiante) {
     if (raiz == NULL) {
         raiz = nuevo;
     } else 
+<<<<<<< HEAD
        
+=======
+       
+>>>>>>> 30d237396a96efa06c8b63b9be7f8ec358eda0c8
