@@ -2,40 +2,18 @@
 
 
 
-
 #include <iostream>
-using namespace std;
+#include <cstring>
+#include <limits>
 
-struct Estudiante {
-    int codigo;
-    string nombres;
-    string apellidos;
-    struct FechaNacimiento {
-        int year;
-        int month;
-        int day;
-    } fecha;
+    using namespace std;
+
+
+struct Estudiante //modificada de muchas estructurasa una sola 
+{
+    char nombreComp[40];
+    char codigo[40];
+    char fechaDeNacimiento[40];
+    Estudiante *izquierda;
+    Estudiante *derecha;
 };
-
-struct Nodo {
-    Estudiante estudiante;
-    Nodo *izq;
-    Nodo *der;
-};
-
-Nodo *raiz = NULL;
-
-void Insert_cod_estd(Estudiante estudiante) {
-    Nodo *nuevo = new Nodo;
-    nuevo->estudiante = estudiante;
-    nuevo->izq = NULL;
-    nuevo->der = NULL;
-
-    if (raiz == NULL) {
-        raiz = nuevo;
-    } else 
-<<<<<<< HEAD
-       
-=======
-       
->>>>>>> 30d237396a96efa06c8b63b9be7f8ec358eda0c8
