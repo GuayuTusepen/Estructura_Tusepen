@@ -11,15 +11,15 @@
 
 struct Estudiante //modificada de muchas estructurasa una sola 
 {
-    char Nombre_Apelido;
+    char Nombre_Apellido [40];
     int codigo_estud;
-    char fecha_Nac;
+    char fecha_Nac [11];
     Estudiante *izquierda;
     Estudiante *derecha;
 };
 
-void insertar_Arbol(Estudiante *&arbol, Estudiante *N_Estudiante, bool (*comparar)(const char *, const char *));
-bool Comparar_Por_Codigo(const char *codigo1, const char *codigo2);
+void insertar_Arbol(Estudiante *&arbol, Estudiante *N_Estudiante, bool (*comparar)(int, int));
+bool Comparar_Por_Codigo(int codigo1, int codigo2);
 bool Comparar_Por_Fecha(const char *fecha1, const char *fecha2);
 void registrar_Estudiante(Estudiante *&Arbol_Cod, Estudiante *&arbol_Fecha, Estudiante *N_Estudiante);
 void mostrar_Menu();
@@ -29,10 +29,8 @@ void eliminar_Nodo(Estudiante **arbol, const char *codigoAEliminar);
 void imprimir_PreOrden(Estudiante *arbol);
 void imprimir_InOrden(Estudiante *arbol);
 void imprimir_PostOrden(Estudiante *arbol);
-
-Estudiante *buscar_Estudiante(Estudiante *arbol, const char *codigoABuscar);
-void buscar_Estudiante_Y_Mostrar(Estudiante *Arbol_Cod, const char *codigoABuscar);
-
+Estudiante *buscar_Estudiante(Estudiante *arbol, const char *codigo_Buscar);
+void buscar_Estudiante_Y_Mostrar(Estudiante *Arbol_Cod, const char *codigo_Buscar);
 
 int main()
 {
@@ -51,24 +49,24 @@ int main()
         case 1:
         {
             Estudiante *N_Estudiante = new Estudiante;
-            cout << "\nNombre completico del estudiante : ";
+            cout << "\nNombre completo del estudiante: ";
 
             cin.getline(N_Estudiante->Nombre_Apellido, 40);
-            cout << "Ingrese el código del estudiante: ";
+            cout << "\nIngrese el código del estudiante: ";
 
             cin >> N_Estudiante->codigo_estud;
             cout << "Ingrese la fecha de nacimiento del estudiante (DD/MM/AAAA): ";
-            
-            cin >> N_Estudiante->fecha_Nac;
+            cin.ignore(); // Limpiar el buffer antes de leer la fecha de nacimiento
+            cin.getline(N_Estudiante->fecha_Nac, 11);
             N_Estudiante->izquierda = nullptr;
             N_Estudiante->derecha = nullptr;
             registrar_Estudiante(Arbol_Cod, arbol_Fecha, N_Estudiante);
-            cout << "Correcto" << endl;
+            cout << "Estudiante registrado exitosamente." << endl;
             break;
         }
         case 2:
         {
-            cout << "\nIngrese el codigo del estudiante a eliminar: ";
+            cout << "\nIngrese el código del estudiante a eliminar: ";
             char codigoEliminar[40];
             cin.ignore();
             cin.getline(codigoEliminar, 40);
@@ -77,7 +75,7 @@ int main()
         }
         case 3:
         {
-            cout << "\nIngrese el codigo del estudiante a buscar: ";
+            cout << "\nIngrese el código del estudiante a buscar: ";
             char codigoBuscar[40];
             cin.ignore();
             cin.getline(codigoBuscar, 40);
@@ -86,30 +84,30 @@ int main()
         }
         case 4:
         {
-            cout << "\nMostrando el arbol en Preorden:" << endl;
-            cout << "Arbol ordenado por codigo:" << endl;
+            cout << "\nMostrando el árbol en Preorden:" << endl;
+            cout << "Árbol ordenado por código:" << endl;
             imprimir_PreOrden(Arbol_Cod);
-            cout << "Arbol ordenado por fecha de nacimiento:" << endl;
+            cout << "Árbol ordenado por fecha de nacimiento:" << endl;
             imprimir_PreOrden(arbol_Fecha);
             cout << "\n";
             break;
         }
         case 5:
         {
-            cout << "\nMostrando el arbol en Inorden:" << endl;
-            cout << "Arbol ordenado por codigo:" << endl;
+            cout << "\nMostrando el árbol en Inorden:" << endl;
+            cout << "Árbol ordenado por código:" << endl;
             imprimir_InOrden(Arbol_Cod);
-            cout << "Arbol ordenado por fecha de nacimiento:" << endl;
+            cout << "Árbol ordenado por fecha de nacimiento:" << endl;
             imprimir_InOrden(arbol_Fecha);
             cout << "\n";
             break;
         }
         case 6:
         {
-            cout << "\nMostrando el arbol en Postorden:" << endl;
-            cout << "Arbol ordenado por codigo:" << endl;
+            cout << "\nMostrando el árbol en Postorden:" << endl;
+            cout << "Árbol ordenado por código:" << endl;
             imprimir_PostOrden(Arbol_Cod);
-            cout << "Arbol ordenado por fecha de nacimiento:" << endl;
+            cout << "Árbol ordenado por fecha de nacimiento:" << endl;
             imprimir_PostOrden(arbol_Fecha);
             cout << "\n";
             break;
@@ -120,7 +118,7 @@ int main()
             break;
         }
         default:
-            cout << "\nOpcion no valida. Intente de nuevo." << endl;
+            cout << "\nOpción no válida. Intente de nuevo." << endl;
             break;
         }
     } while (opcion != 7);
@@ -128,14 +126,13 @@ int main()
     return 0;
 }
 
-
-void insertar_Arbol(Estudiante *&arbol, Estudiante *N_Estudiante, bool (*comparar)(const char *, const char *))
+void insertar_Arbol(Estudiante *&arbol, Estudiante *N_Estudiante, bool (*comparar)(int, int))
 {
     if (arbol == nullptr)
     {
         arbol = N_Estudiante;
     }
-    else if (comparar(to_string(N_Estudiante->codigo_estud).c_str(), to_string(arbol->codigo_estud).c_str()))
+    else if (comparar(N_Estudiante->codigo_estud, arbol->codigo_estud))
     {
         insertar_Arbol(arbol->izquierda, N_Estudiante, comparar);
     }
@@ -145,9 +142,9 @@ void insertar_Arbol(Estudiante *&arbol, Estudiante *N_Estudiante, bool (*compara
     }
 }
 
-bool Comparar_Por_Codigo(const char *codigo1, const char *codigo2)
+bool Comparar_Por_Codigo(int codigo1, int codigo2)
 {
-    return atoi(codigo1) < atoi(codigo2);
+    return codigo1 < codigo2;
 }
 
 bool Comparar_Por_Fecha(const char *fecha1, const char *fecha2)
@@ -170,11 +167,11 @@ void mostrar_Menu()
     cout << "3. Ordenar por código" << endl;
     cout << "4. Ordenar por fecha de nacimiento" << endl;
     cout << "5. Buscar estudiante" << endl;
-    cout << "6. Mostrar pre orden" << endl;
-    cout << "7. Mostrar in orden" << endl;
-    cout << "8. Mostrar post orden" << endl;
+    cout << "6. Mostrar preorden" << endl;
+    cout << "7. Mostrar inorden" << endl;
+    cout << "8. Mostrar postorden" << endl;
     cout << "9. Salir" << endl;
-    cout << "Ingrese su opcion: ";
+    cout << "Ingrese su opción: ";
 }
 
 void limpiar_Buffer()
@@ -197,7 +194,7 @@ void eliminar_Nodo(Estudiante **arbol, const char *codigoAEliminar)
         return;
     }
 
-    if (atoi((*arbol)->codigo_estud) == atoi(codigoAEliminar))
+    if ((*arbol)->codigo_estud == atoi(codigoAEliminar))
     {
         Estudiante *nodoAEliminar = *arbol;
         if ((*arbol)->izquierda == nullptr && (*arbol)->derecha == nullptr)
@@ -223,10 +220,10 @@ void eliminar_Nodo(Estudiante **arbol, const char *codigoAEliminar)
                 sucesor = sucesor->izquierda;
             }
             (*arbol)->codigo_estud = sucesor->codigo_estud;
-            eliminar_Nodo(&((*arbol)->derecha), sucesor->codigo_estud);
+            eliminar_Nodo(&((*arbol)->derecha), codigoAEliminar);
         }
     }
-    else if (atoi((*arbol)->codigo_estud) > atoi(codigoAEliminar))
+    else if ((*arbol)->codigo_estud > atoi(codigoAEliminar))
     {
         eliminar_Nodo(&((*arbol)->izquierda), codigoAEliminar);
     }
@@ -275,26 +272,26 @@ void imprimir_PostOrden(Estudiante *arbol)
     }
 }
 
-Estudiante *buscar_Estudiante(Estudiante *arbol, const char *codigoABuscar)
+Estudiante *buscar_Estudiante(Estudiante *arbol, const char *codigo_Buscar)
 {
-    if (arbol == nullptr || atoi(arbol->codigo_estud) == atoi(codigoABuscar))
+    if (arbol == nullptr || arbol->codigo_estud == atoi(codigo_Buscar))
     {
         return arbol;
     }
 
-    if (atoi(arbol->codigo_estud) > atoi(codigoABuscar))
+    if (arbol->codigo_estud > atoi(codigo_Buscar))
     {
-        return buscar_Estudiante(arbol->izquierda, codigoABuscar);
+        return buscar_Estudiante(arbol->izquierda, codigo_Buscar);
     }
     else
     {
-        return buscar_Estudiante(arbol->derecha, codigoABuscar);
+        return buscar_Estudiante(arbol->derecha, codigo_Buscar);
     }
 }
 
-void buscar_Estudiante_Y_Mostrar(Estudiante *Arbol_Cod, const char *codigoABuscar)
+void buscar_Estudiante_Y_Mostrar(Estudiante *Arbol_Cod, const char *codigo_Buscar)
 {
-    Estudiante *estudianteEncontrado = buscar_Estudiante(Arbol_Cod, codigoABuscar);
+    Estudiante *estudianteEncontrado = buscar_Estudiante(Arbol_Cod, codigo_Buscar);
     if (estudianteEncontrado != nullptr)
     {
         cout << "Estudiante encontrado:" << endl;
@@ -304,6 +301,6 @@ void buscar_Estudiante_Y_Mostrar(Estudiante *Arbol_Cod, const char *codigoABusca
     }
     else
     {
-        cout << "Estudiante con codigo " << codigoABuscar << " no encontrado." << endl;
+        cout << "Estudiante con código " << codigo_Buscar << " no encontrado." << endl;
     }
 }
