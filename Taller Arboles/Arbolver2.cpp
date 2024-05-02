@@ -1,3 +1,6 @@
+//Jeison mosquers y Daniela jaramillo
+
+
 #include <iostream>
 #include <cstring>
 #include <limits>
@@ -13,7 +16,7 @@ struct Estudiante
     Estudiante *Derecha;
 };
 
-// Prototipos de función
+// metodos 
 void Insertar_Arbol(Estudiante *&Arbol, Estudiante *Nuevo_Estudiante, bool (*Comparar)(const char *, const char *));
 bool Comparar_Por_Codigo(const char *Codigo1, const char *Codigo2);
 bool Comparar_Por_Fecha(const char *Fecha1, const char *Fecha2);
@@ -280,3 +283,15 @@ void Buscar_Estudiante_Y_Mostrar(Estudiante *Arbol_Cod, const char *Codigo_Busca
     }
 }
 
+void Mostrar_Menu()
+{
+    cout << "\nMenu" << endl;
+    cout << "1. Registrar estudiante" << endl;
+    cout << "2. Eliminar estudiante" << endl;
+    cout << "3. Buscar estudiante" << endl;
+    cout << "4. Mostrar en Preorden" << endl;
+    cout << "5. Mostrar en Inorden" << endl;
+    cout << "6. Mostrar en Postorden" << endl;
+    cout << "7. Salir" << endl;
+    cout << "Ingrese su opcion: ";
+}
