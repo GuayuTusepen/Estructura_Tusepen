@@ -1,0 +1,81 @@
+//Jeison mosquers y Daniela jaramillo
+
+
+#include <iostream>
+#include <cstring>
+#include <limits>
+
+using namespace std;
+
+struct Estudiante
+{
+    char Nombre_Apellido[40];
+    char codigo_estud[40];
+    char fecha_Nac[11];
+    Estudiante *izquierda;
+    Estudiante *derecha;
+};
+
+// Prototipos de función
+void insertar_Arbol(Estudiante *&arbol, Estudiante *N_Estudiante, bool (*comparar)(const char *, const char *));
+bool Comparar_Por_Codigo(const char *codigo1, const char *codigo2);
+bool Comparar_Por_Fecha(const char *fecha1, const char *fecha2);
+void registrar_Estudiante(Estudiante *&Arbol_Cod, Estudiante *&arbol_Fecha, Estudiante *N_Estudiante);
+void mostrar_Menu();
+void limpiar_Buffer();
+void eliminar_Estudiante(Estudiante *&Arbol_Cod, Estudiante *&arbol_Fecha, const char *codigo_Eliminar);
+void eliminar_Nodo(Estudiante **arbol, const char *codigo_Eliminar);
+void imprimir_PreOrden(Estudiante *arbol);
+void imprimir_InOrden(Estudiante *arbol);
+void imprimir_PostOrden(Estudiante *arbol);
+Estudiante *buscar_Estudiante(Estudiante *arbol, const char *codigo_Buscar);
+void buscar_Estudiante_Y_Mostrar(Estudiante *Arbol_Cod, const char *codigo_Buscar);
+
+int main()
+{
+    Estudiante *arbolPorCodigo = nullptr;
+    Estudiante *arbolPorFecha = nullptr;
+
+    int opcion;
+    do
+    {
+        mostrar_Menu();
+        cin >> opcion;
+        limpiar_Buffer();
+
+        switch (opcion)
+        {
+        case 1:
+        {
+            Estudiante *nuevoEstudiante = new Estudiante;
+            cout << "\nIngrese el nombre completo del estudiante: ";
+            cin.getline(nuevoEstudiante->Nombre_Apellido, 40);
+            cout << "Ingrese el código del estudiante: ";
+            cin.getline(nuevoEstudiante->codigo_estud, 40);
+            cout << "Ingrese la fecha de nacimiento del estudiante (DD/MM/AAAA): ";
+            cin.getline(nuevoEstudiante->fecha_Nac, 11);
+            nuevoEstudiante->izquierda = nullptr;
+            nuevoEstudiante->derecha = nullptr;
+            registrar_Estudiante(arbolPorCodigo, arbolPorFecha, nuevoEstudiante);
+            cout << "Estudiante registrado exitosamente." << endl;
+            break;
+        }
+        case 2:
+        {
+            cout << "\nIngrese el código del estudiante a eliminar: ";
+            char codigoEliminar[40];
+            cin.ignore();
+            cin.getline(codigoEliminar, 40);
+            eliminar_Estudiante(arbolPorCodigo, arbolPorFecha, codigoEliminar);
+            break;
+        }
+        case 3:
+        {
+            cout << "\nIngrese el código del estudiante a buscar: ";
+            char codigoBuscar[40];
+            cin.ignore();
+            cin.getline(codigoBuscar, 40);
+            buscar_Estudiante_Y_Mostrar(arbolPorCodigo, codigoBuscar);
+            break;
+        }
+       
