@@ -1,7 +1,9 @@
 {
   "C_Cpp.errorSquiggles": "disabled",
   "files.associations": {
-    "iostream": "cpp"
+    "iostream": "cpp",
+    "istream": "cpp",
+    "ostream": "cpp"
   },
   "C_Cpp_Runner.cCompilerPath": "gcc",
   "C_Cpp_Runner.cppCompilerPath": "g++",
