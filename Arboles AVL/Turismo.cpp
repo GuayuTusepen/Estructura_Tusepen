@@ -1,9 +1,10 @@
 #include <iostream>
 #include <cstdlib>
+#include <cstring>
 
 using namespace std;
 
-const int Max = 50://longitud maxima de char
+const int Max = 50;//longitud maxima de char
 //viaje = nodo
  struct Viaje {
 	
@@ -12,16 +13,17 @@ const int Max = 50://longitud maxima de char
     char Destino [Max];
     char Matricula [3];
     char Embarcacion [Max];
-    char fecha [9];
+    char Fecha [9];
     int capacidad;
     int pasajeros;
 
     Viaje *izq;
     Viaje *dere;
     int altura;
-}
+};
 
-Viaje *raiz =NULL
+Viaje *raiz = NULL;
+
 // inserto mi nuevo nodo 
 Viaje* crearNodo() {
     Viaje *nuevoViaje = (Viaje *)malloc(sizeof(Viaje));
@@ -30,17 +32,17 @@ Viaje* crearNodo() {
 
     cout << "Nombre del Barco: ";
     cin.ignore();
-    cin.getline (nuevoViaje->nombreEmbarcacion,Max);
+    cin.getline(nuevoViaje->Embarcacion, Max);
     
     cout<< "Fecha del viaje XXYYYYMMDD: ";
-    cin >> nuevoViaje->fecha;
+    cin >> nuevoViaje->Fecha;
 
     cout << "Precio del viaje: ";
-    cin >> nuevoViaje->precio;
+    cin >> nuevoViaje->Precio;
 
     cout << "Destino del viaje: ";
     cin.ignore();
-    cin.getline(nuevoViaje->destino, Max);
+    cin.getline(nuevoViaje->Destino, Max);
 
     cout<< "Capacidad del Barco:";
     cin>> nuevoViaje-> capacidad;
@@ -51,10 +53,52 @@ Viaje* crearNodo() {
 
     //genero el id concatenando
 
- strncpy(nuevoViaje->ID, nuevoViaje->matricula, 2);
-    strncat(nuevoViaje->ID, nuevoViaje->fecha, 8);
-    nuevoViaje->ID[10] = "\0"; 
+ strncpy(nuevoViaje->ID, nuevoViaje->Matricula, 2);
+    strncat(nuevoViaje->ID, nuevoViaje->Fecha, 8);
+    nuevoViaje->ID[10] = '\0'; 
     return nuevoViaje;
+}
+
+//altura de un nodo 
+    int obtenerAltura(Viaje *nodo) {
+    if (nodo == NULL) {
+        return 0;
+    }
+    return nodo->altura;
+}
+    int obtenerBalance(Viaje *nodo) { 
+    if (nodo == NULL) {
+        return 0;
+    }
+    return obtenerAltura(nodo->izq) - obtenerAltura(nodo->dere);
+}
+         //izq rotar
+Viaje* rotarDerecha(Viaje *y) {
+    Viaje *x = y->izq;
+    Viaje *T2 = x->dere;
+
+    x->dere = y;
+    y->izq = T2;
+  // Actualizar alturas
+    y->altura = max(obtenerAltura(y->izq), obtenerAltura(y->dere)) + 1;
+    x->altura = max(obtenerAltura(x->izq), obtenerAltura(x->dere)) + 1;
+
+    return x;
+}
+
+//der rotar
+Viaje* rotarIzquierda(Viaje *x) {
+    Viaje *y = x->dere;
+    Viaje *T2 = y->izq;
+
+    y->izq = x;
+    x->dere = T2;
+
+    // Actualizar alturas
+    x->altura = max(obtenerAltura(x->izq), obtenerAltura(x->dere)) + 1;
+    y->altura = max(obtenerAltura(y->izq), obtenerAltura(y->dere)) + 1;
+
+    return y;
 }
 
 //insertar nuevo viaje en arbol alv
@@ -64,9 +108,9 @@ Viaje* insertar(Viaje *nodo, Viaje *nuevoViaje){
         return nuevoViaje;  
     }
 
-    if (strcmp(nuevoViaje->ID, nodo->ID) <0){
+    if (strcmp(nuevoViaje->ID, nodo->ID) < 0) {
         nodo->izq = insertar(nodo->izq, nuevoViaje);
-    }} else if (strcmp(nuevoViaje->ID, nodo->ID) > 0) {
+    } else if (strcmp(nuevoViaje->ID, nodo->ID) > 0) {
         nodo->dere = insertar(nodo->dere, nuevoViaje);
     } else {
         return nodo;
@@ -99,41 +143,7 @@ int balance = obtenerBalance(nodo);//rota derecha
     return nodo;
 }
 
-//altura de un nodo 
-int obtenerAltura(Viaje *nodo) {
-    if (nodo == NULL) {
-        return 0;
-    }
-    return nodo->altura;
-}
-//izq rotar
-Viaje* rotarDerecha(Viaje *y) {
-    Viaje *x = y->izq;
-    Viaje *T2 = x->dere;
 
-    x->dere = y;
-    y->izq = T2;
-  // Actualizar alturas
-    y->altura = max(obtenerAltura(y->izq), obtenerAltura(y->dere)) + 1;
-    x->altura = max(obtenerAltura(x->izq), obtenerAltura(x->dere)) + 1;
-
-    return x;
-}
-
-//der rotar
-Viaje* rotarIzquierda(Viaje *x) {
-    Viaje *y = x->dere;
-    Viaje *T2 = y->izq;
-
-    y->izq = x;
-    x->dere = T2;
-
-    // Actualizar alturas
-    x->altura = max(obtenerAltura(x->izq), obtenerAltura(x->dere)) + 1;
-    y->altura = max(obtenerAltura(y->izq), obtenerAltura(y->dere)) + 1;
-
-    return y;
-}
 
 //recore preorden m
  void preOrden (Viaje *nodo) {
@@ -152,49 +162,38 @@ Viaje* rotarIzquierda(Viaje *x) {
         free (nodo);
     }
  }
+int main() {
+    int opc = 0;
+    while (opc != 3) {
+        cout<< "menu de opciones"<< endl;
+        cout<< "1. RGISTRE un viaje"<< endl;
+        cout<< "2. MOstar arbol de viaje"<< endl;
+        cout<< "3. salir"<< endl;
+        cin>> opc;
+        
+        switch (opc){
+            case 1: {
+                Viaje *nuevoViaje = crearNodo();
+                raiz = insertar(raiz, nuevoViaje);
+                break;
+            }
 
+        case 2: {
+                cout << "Recorrido preorden : ";
+                preOrden(raiz);
+                cout << endl;
+                break;
+            }
 
+            case 3:
+                liberarArbol(raiz);
+                cout << "adio pue..." << endl;
+                break;
+            default:
+                cout << "no valido, otra vez." << endl;
+                break;
+        }
+    }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-
-
-
-int main()
-{
-
-
-
-
+    return 0;
 }
