@@ -1,10 +1,21 @@
 #include <iostream>
 #include <cstdlib>
 #include <cstring>
+#include <queue>//cola fifo
+
 
 using namespace std;
 
 const int Max = 50;//longitud maxima de char
+
+
+struct Pasajero {
+    char nombre[Max];
+    char documento[Max];
+};
+
+
+
 //viaje = nodo
  struct Viaje {
 	
@@ -15,7 +26,7 @@ const int Max = 50;//longitud maxima de char
     char Embarcacion [Max];
     char Fecha [9];
     int capacidad;
-    int pasajeros;
+   queue <pasajero> pasajeros;
 
     Viaje *izq;
     Viaje *dere;
