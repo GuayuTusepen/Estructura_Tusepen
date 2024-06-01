@@ -4,7 +4,8 @@
     "iostream": "cpp",
     "istream": "cpp",
     "ostream": "cpp",
-    "cstdlib": "cpp"
+    "cstdlib": "cpp",
+    "*.tcc": "cpp"
   },
   "C_Cpp_Runner.cCompilerPath": "gcc",
   "C_Cpp_Runner.cppCompilerPath": "g++",
