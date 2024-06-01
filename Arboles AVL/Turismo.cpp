@@ -75,15 +75,7 @@ Viaje* crearNodo() {
 
     //genero el id concatenando
 
- strncpy(nuevoViaje->ID, nuevoViaje->Matricula, 2); 
-    snprintf(nuevoViaje->ID + 2, sizeof(nuevoViaje->ID) - 2, "%04d%02d%02d", nuevoViaje->anio, nuevoViaje->mes, nuevoViaje->dia); // Año, mes y día
-       //salida del ID
-       cout << "Tome su pinche identifcador concatenado" << nuevoViaje->ID << endl;
-       
-        return nuevoViaje;
-}
-
-
+5
 
 
 //altura de un nodo 
